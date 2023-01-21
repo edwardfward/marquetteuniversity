@@ -9,6 +9,7 @@ sudo apt-get install -y git
 
 # install in the user's home directory
 git clone https://github.com/seed-labs/seed-labs.git ~/seed-labs
+git clone https://github.com/https://github.com/edwardfward/marquetteuniversity.git ~/marquette
 
 # install docker key and repo
 # ref - https://docs.docker.com/engine/install/ubuntu/
