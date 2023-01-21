@@ -1,5 +1,4 @@
 # cloud-config
-# validate configuration using cloud-init schema -c digitaloceanseed.yaml
 runcmd:
   - sudo apt-get update -y
   - sudo apt-get install -y git
