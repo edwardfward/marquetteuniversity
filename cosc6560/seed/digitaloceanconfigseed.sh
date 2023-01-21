@@ -6,6 +6,8 @@
 # clone seed repo
 sudo apt-get update -y
 sudo apt-get install -y git
+
+cd ~ # change to user's working directory
 git clone https://github.com/seed-labs/seed-labs.git
 
 # install docker key and repo
