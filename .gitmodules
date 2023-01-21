@@ -1,0 +1,3 @@
+[submodule "cosc6560/seed-labs"]
+	path = cosc6560/seed-labs
+	url = git@github.com:seed-labs/seed-labs.git
