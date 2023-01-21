@@ -7,8 +7,8 @@
 sudo apt-get update -y
 sudo apt-get install -y git
 
-cd ~ # change to user's working directory
-git clone https://github.com/seed-labs/seed-labs.git
+# install in the user's home directory
+git clone https://github.com/seed-labs/seed-labs.git ~/seed-labs
 
 # install docker key and repo
 # ref - https://docs.docker.com/engine/install/ubuntu/
