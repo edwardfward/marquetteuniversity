@@ -2,8 +2,7 @@
 ## [Assignment Instructions: Secret-Key Encryption Lab](https://seedsecuritylabs.org/Labs_20.04/Files/Crypto_Encryption/Crypto_Encryption.pdf)
 ### Steps used to decrypt the mono-alphabetic cipher
 
-I found it difficult to compare the English language n-grams provided in [words.txt](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/words.txt) side-by-side with the encrypted n-grams in [ciphertext.txt](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/ciphertext.txt) using the author's Python program [freq.py](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/freq.py).
-Plus, I wanted to see four and five-letter sequences, so I decided to write my own program, [wordgram_freq.py](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/wordgram_freq.py). 
+I found it difficult to compare the English language n-grams provided in [words.txt](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/words.txt) side-by-side with the encrypted n-grams in [ciphertext.txt](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/ciphertext.txt) using the author's Python program [freq.py](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/freq.py). Plus, I wanted to see four and five-letter sequences, so I decided to write my own program, [wordgram_freq.py](https://github.com/edwardfward/marquetteuniversity/blob/main/cosc5360/week1/hw1/wordgram_freq.py).<br><br>
 
 My program gives gives me the ability to see plaintext and ciphertext n-grams side-by-side and the option to see four or more letter sequences to find common four and five-letter sequences such as _tion_ and _action_.
 
