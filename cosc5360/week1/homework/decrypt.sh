@@ -1,1 +1,0 @@
-tr 'nivhtybxlrpmaqcfzudgeksjow' 'ELARHTFOWGDICSMVUNYBPXKQJZ' < ../seedfiles/ciphertext.txt > plaintext.txt
