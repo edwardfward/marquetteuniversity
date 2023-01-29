@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 
 pt = bytearray.fromhex('255044462d312e350a25d0d4c5d80a34')
-ct = bytearray.fromhex('d06bf9d0dab8e8ef880660d2af65aa82')
+ct = 'd06bf9d0dab8e8ef880660d2af65aa82'
 iv = bytearray.fromhex('09080706050403020100A2B2C2D2E2F2')
 
 with open('keys.txt') as f:
@@ -12,7 +12,7 @@ for k in keys:
     key = bytearray.fromhex(k)
     cipher = AES.new(key, AES.MODE_CBC, iv=iv)
     new_ct = cipher.encrypt(pt).hex()
-    if new_ct == ct:
+    if new_ct == ct.hex():
         print('Found secret key: {}')
         exit(0)
 
