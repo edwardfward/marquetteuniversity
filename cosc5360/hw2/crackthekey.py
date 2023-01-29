@@ -16,7 +16,7 @@ for k in keys:
     cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)
     encryptor = cipher.encryptor()
     ct = encryptor.update(plaintext)
-    print(ct)
+    print(ct.hex())
     if ct == ciphertext:
         print(f'Secret key is {key}')
         exit(0)
