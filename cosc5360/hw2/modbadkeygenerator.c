@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define KEYSIZE 16
 
@@ -10,7 +11,7 @@ int main()
 
     // generate key for each second for the two hours prior to when the file
     // was saved and output the results into a key file
-    for (unsigned long long t = 1523999329; t < 1524006529; t++)
+    for (time_t t = 1524020929 - 60 * 60 * 2; t < 1524020929; t++)
     {
         srand(t);
 
