@@ -1,6 +1,5 @@
 # COSC 5360 Homework Assignment 2
 
----
 ### Author: Edward Ward III
 ### Submitted: Sunday, 29 January 2023
 
