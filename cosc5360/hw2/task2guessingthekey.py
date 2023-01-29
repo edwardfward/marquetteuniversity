@@ -11,7 +11,7 @@ Popen(f"echo '{PLAINTEXT}' | xxd -r -p > ./plaintext.txt", shell=True)
 
 # determine search window bounded by save time and two hours prior to save
 save_time = int(datetime(2018, 4, 17, 23, 8, 49).timestamp())
-start_time = save_time - 60 * 60 * 2
+start_time = save_time - 60 * 60 * 3
 
 for k in range(save_time, start_time, -1):
     key = check_output(f'./task2badkeygenerator.bin {k}', shell=True)

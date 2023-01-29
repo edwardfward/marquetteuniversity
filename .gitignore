@@ -138,3 +138,6 @@ cosc5360/hw2/.idea/*
 # Jetbrains CLion
 CMakeLists.txt
 cmake-build-debug/
+
+#C
+*.bin*
