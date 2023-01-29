@@ -342,7 +342,9 @@ Monte Carlo value for Pi is 3.145420629 (error 0.12 percent).
 Serial correlation coefficient is 0.000495 (totally uncorrelated = 0.0).
 ```
 
-The two appear almost identical in quality. Here is the C program used to generate a 256-bit encryption key using `/dev/urandom`:
+The two appear almost identical in quality.  
+
+Here is the C program used to generate a 256-bit encryption key using `/dev/urandom`:
 
 ```C
 #include <stdio.h>
@@ -366,4 +368,6 @@ gcc generate256keyurandom.c -o generate256keyurandom.bin
 ./generate256keyurandom.bin
 ab993e524d2499f711aa944958a3427b22397c0d7af2f631a7d3aa8c962cbd99
 ```
+Screenshot:
+
 ![256-bit random key from /dev/urandom](task5256bitkey.png)
