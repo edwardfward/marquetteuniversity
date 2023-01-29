@@ -13,7 +13,7 @@ for k in keys:
     cipher = AES.new(key, AES.MODE_CBC, iv=iv)
     new_ct = cipher.encrypt(pt)
     if new_ct == ct:
-        print('Found secret key: {}')
+        print(f'Found secret key: {k}')
         exit(0)
 
 print('No key found')
