@@ -14,8 +14,8 @@ save_time = int(datetime(2018, 4, 17, 23, 8, 49).timestamp())
 start_time = save_time - 60 * 60 * 2
 
 for k in range(save_time, start_time, -1):
-    key = check_output(f'./task2badkeygenerator {k}', shell=True)
-    cmd = f"openssl enc -{CIPHER} -e -a -in ./plaintext.txt -nosalt -K {key.decode()} -iv {IV}"
+    key = check_output(f'./task2badkeygenerator.bin {k}', shell=True)
+    cmd = f"openssl enc -{CIPHER} -e -a -in ./plaintext.txt -K {key.decode()} -iv {IV}"
     # result is saved in base64, need to take the first 16-chars and convert to hex
     cipher_out = check_output(cmd, shell=True)[:16].hex()
     if cipher_out == CIPHERTEXT:
