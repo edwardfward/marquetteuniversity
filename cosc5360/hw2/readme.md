@@ -6,8 +6,6 @@
 
 ## Task 1
 
----
-
 Compiled and executed the author's `badkeygenerator.c` file.
 
 ```C
@@ -78,7 +76,6 @@ gcc badkeygenerator.c -o badkeygenerator.bin
 
 ## Task 2 - Guessing the Key
 
----
 The saved file's epoch `2018-04-17 23:08:49` is `1524006529`. Since we assume the key was generated within the previous two hours of the file being saved, we need keys for every second between `2018-04-17 21:08:49` and the saved file's epoch.
 
 File saved:
@@ -238,7 +235,6 @@ Found secret key: 95fa2030e73ed3f8da761b4eb805dfd7
 
 ## Task 3 - Measure the Entropy of Kernel
 
----
 Observe the current entropy available:
 
 ```Bash
@@ -260,7 +256,6 @@ Moving the mouse or typing on the keyboard seems to generate entropy faster than
 
 ## Task 4 - Get Pseudo Random Numbers from /dev/random
 
-----
 Observe the random pool. Significant increase is randomness rate when I move the mouse.
 
 Terminal 1:
@@ -297,7 +292,6 @@ Answer: Given `/dev/random` is a blocking device, you can launch a denial-of-ser
 
 ## Task 5 - Get Random Numbers from `/dev/urandom`
 
----
 Observing `/dev/urandom`, it does not appear moving the mouse has any significant impact on how fast it will generate pseudo-random numbers.
 
 ```Bash
