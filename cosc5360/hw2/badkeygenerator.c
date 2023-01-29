@@ -10,7 +10,7 @@ int main()
     char key[KEYSIZE];
 
     printf("%lld\n", (long long) time(NULL));
-    srand(time(NULL));
+    // srand(time(NULL));
 
     for (i = 0; i < KEYSIZE; i++)
     {

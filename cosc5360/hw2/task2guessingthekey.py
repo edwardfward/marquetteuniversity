@@ -21,4 +21,4 @@ for k in range(save_time, start_time, -1):
     print(f'{key} | {cipher_out}')
     if cipher_out == CIPHERTEXT:
         print(f'Secret key is {k}')
-        break
+        exit(0)
