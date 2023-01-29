@@ -129,6 +129,26 @@ gcc modbadkeygenerator.c -o modbadkeygenerator.bin
 ./modbadkeygenerator.bin > keys.txt
 ```
 
+Checking `keys.txt` to verify the keys were exported properly:
+```Bash
+head -10 keys.txt
+8dfa318cb2fbcaf11635475163586d90
+678e3799dbdda8d33a9546e2f251b537
+4dd733c6bc3d355ca2f90c4811d2960c
+da2e54915f7a4b09b0b72efd41eb51c5
+d2d785ab9fd5aa891c3e354e66ef73d8
+7c447867b364d68193447f63c89ff69a
+cb2f5a825bce6c2a30c02f935abefbe0
+c9f823aa903991a6767c1b8d28923881
+fb7cea57e9285240d7fa98431aef9896
+0a298a7495904df832004cc934bd8bff
+```
+
+Brute force to crack the key:
+
+```Python
+
+```
 ## Task 3
 
 ## Task 4
