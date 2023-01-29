@@ -1,0 +1,1 @@
+tr 'nvihtybxlrpmaqcfzudgeksjow' 'EALRHTFOWGDICSMVUNYBPXKQJZ' < ciphertext.txt
