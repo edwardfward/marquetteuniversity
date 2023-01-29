@@ -18,7 +18,7 @@ for k in range(save_time, start_time, -1):
     cmd = f"openssl enc -{CIPHER} -e -a -in ./plaintext.txt -K {key.decode()} -iv {IV}"
     # result is saved in base64, need to take the first 16-chars and convert to hex
     cipher_out = check_output(cmd, shell=True)[:16].hex()
-    print(cipher_out)
+    print(f'{key} | {cipher_out}')
     if cipher_out == CIPHERTEXT:
         print(f'Secret key is {k}')
         break
