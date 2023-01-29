@@ -19,3 +19,6 @@ for k in keys:
     if ct == ciphertext:
         print(f'Secret key is {key}')
         exit(0)
+
+# exit with a failure if no key found
+exit(1)
