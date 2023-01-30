@@ -27,8 +27,8 @@
 
 ## OS Background and Building the Linux VM
 
-[Video](https://youtu.be/GNScr5bRG70)
-[Handout](ihttps://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt7202dbf5253b086d/625458b3c9aa404b76ddc239/CyberAces_Module1-Linux_2_BuildingTheVM.pdf)
+[Video](https://youtu.be/GNScr5bRG70)  
+[Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt7202dbf5253b086d/625458b3c9aa404b76ddc239/CyberAces_Module1-Linux_2_BuildingTheVM.pdf)
 
 ### Notes
 
@@ -76,7 +76,7 @@
 
 ## Core Commands
 
-[Video](https://youtu.be/RQ-TQRlBNfY)
+[Video](https://youtu.be/RQ-TQRlBNfY)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/bltdec2a9cd13ad8ea7/625458b298a5e44ea785170b/CyberAces_Module1-Linux_3_CoreCommands.pdf)
 
 ### Notes
@@ -140,7 +140,7 @@
 
 ## Users and Groups
 
-[Video](https://youtu.be/Uw7Fr0xOV3U)
+[Video](https://youtu.be/Uw7Fr0xOV3U)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt3f5717350ede5fd4/625458ad02d8144fd4daa9e3/CyberAces_Module1-Linux_4_UsersAndGroups.pdf)
 
 ### Notes
@@ -180,7 +180,7 @@
 
 ## Applications and Services
 
-[Video](https://youtu.be/x9oLHTKH36I)
+[Video](https://youtu.be/x9oLHTKH36I)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt1d2f7b61847e2cf1/625458a97e7b344b2534e435/CyberAces_Module1-Linux_5_AppsAndServices.pdf)
 
 ### Notes
@@ -205,7 +205,7 @@
 
 ## Files and Permissions
 
-[Video](https://youtu.be/b839Hk_1X6U)
+[Video](https://youtu.be/b839Hk_1X6U)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt5ecbe77a3230f55a/625458abe4b2fd4fda37ab99/CyberAces_Module1-Linux_6_FilesAndPermissions.pdf)
 
 ### Notes
@@ -240,7 +240,7 @@
 
 ## Installing Software
 
-[Video](https://youtu.be/gHdfO-wd3j8)
+[Video](https://youtu.be/gHdfO-wd3j8)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt385e8817ca4a7e48/625458acbb3f724c520e8669/CyberAces_Module1-Linux_7_InstallingSoftware.pdf)
 
 ### Notes
