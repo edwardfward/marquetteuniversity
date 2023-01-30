@@ -4,7 +4,7 @@
 [SANS Cyber Aces Tutorial Module 1: Operating Systems](https://www.sans.org/cyberaces/introduction-to-operating-systems/?_ga=2.84156569.1003770690.1675039000-874828486.1675038999)
 
 ## VMWare Installation and Configuration
-[Video](https://youtu.be/ACHRL-orkAo)
+[Video](https://youtu.be/ACHRL-orkAo)  
 [Handout](https://assets.contentstack.io/v3/assets/blt36c2e63521272fdc/blt5c09750eebfcf1d0/625458ace4b2fd4fda37ab9d/CyberAces_Module1-Linux_1_VMwareInstallation.pdf)
 
 ### Notes
