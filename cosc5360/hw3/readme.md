@@ -369,6 +369,9 @@ AVOID CONFLICTING WITH THE CLOSING CEREMONY OF THE WINTER OLYMPICS THANKS
 Encrypt the files with the four AES modes `[ecb|cbc|cfb|ofb]` using the same key `K` and initialization vector `iv` above as required.
 
 ```bash
+#!/bin/bash
+
+# encrypt original message
 openssl enc -aes-128-ecb -in originalmessage.txt -out message_ecb.bin \
   -K 00112233445566778889aabbccddeeff
 openssl enc -aes-128-cbc -in originalmessage.txt -out message_cbc.bin \
