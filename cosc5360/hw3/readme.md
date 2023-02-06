@@ -384,3 +384,80 @@ openssl enc -aes-128-ofb -in originalmessage.txt -out message_ofb.bin \
   -K 00112233445566778889aabbccddeeff \
   -iv 01020304050607080102030405060708
 ```
+
+I used `hexedit` instead of the `bless` hex editor because I would like to stick with the terminal and avoid GUIs. **I suspect I will see minimal corruption in all four modes and the message will still be completely readable.**
+
+```bash
+sudo apt install hexedit
+hexedit message_ecb.bin
+```
+![original message](message_ecb_pre.png)
+
+Changed the 55th byte to `DD` in all four binaries. Here's an example of the `ecb` change.
+
+![edited message](message_ecb_post.png)
+
+After editing, decrypt each mangled encrypted file using `decryptmanagledmessages.sh`
+
+```bash
+#!/bin/bash
+openssl enc -aes-128-ecb -d -in message_ecb.bin -out messageout_ecb.txt \
+  -K 00112233445566778889aabbccddeeff
+openssl enc -aes-128-cbc -d -in message_cbc.bin -out messageout_cbc.txt \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 01020304050607080102030405060708
+openssl enc -aes-128-cfb -d -in message_cfb.bin -out messageout_cfb.txt \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 01020304050607080102030405060708
+openssl enc -aes-128-ofb -d -in message_ofb.bin -out messageout_ofb.txt \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 01020304050607080102030405060708
+```
+
+Compare plaintext with corrupt `ECB`. Only one part of the message is corrupted.
+
+```bash
+diff originalmessage.txt messageout_ecb.txt
+1c1
+< THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTER THIS LONG STRANGE
+---
+> THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIG�!��7/L/XV4NG STRANGE
+
+```
+
+Compare plaintext with corrupt `CBC`. Again, only a small part of the message is corrupted.
+
+```bash
+diff originalmessage.txt messageout_cbc.txt
+1c1
+< THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTER THIS LONG STRANGE
+---
+> THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIG�TSGЄ
+                                                       AҠ��DFuNG STR�NGE
+```
+
+Compare plaintext with corrupt `CFB`. Only a small part impacted.
+
+```bash
+diff originalmessage.txt messageout_cfb.txt
+1,2c1
+< THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTER THIS LONG STRANGE
+< AWARDS TRIP THE BAGGER FEELS LIKE A NONAGENARIAN TOO
+---
+> THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTNR THIS LOi��r3>�u0�Ze�S TRIP THE BAGGER FEELS LIKE A NONAGENARIAN TOO
+```
+
+Compare plaintext with corrupt `OFB`. Least difference, only a single character is corrupt.
+
+```bash
+diff originalmessage.txt messageout_ofb.txt
+1c1
+< THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTER THIS LONG STRANGE
+---
+> THE OSCARS TURN  ON SUNDAY WHICH SEEMS ABOUT RIGHT AFTCR THIS LONG STRANGE
+
+```
+
+# Task 6: Initial Vector (IV) and Common Mistakes
+
+
