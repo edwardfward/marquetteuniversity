@@ -460,4 +460,62 @@ diff originalmessage.txt messageout_ofb.txt
 
 # Task 6: Initial Vector (IV) and Common Mistakes
 
+## Task 6.1. IV Experiment
+
+Encrypt the same text using (1) two different IVs and (2) the same IV. Please describe your observation, based on which, explain why IV needs to be unique.
+
+```bash
+# encrypt using two different ivs
+openssl enc -aes-128-cbc -in plain.txt -out iv1diff.bin \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 01020304050607080102030405060708
+openssl enc -aes-128-cbc -in plain.txt -out iv2diff.bin \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 010203040506070801020304050607aa
+```
+
+Examine both encrypted files
+
+```bash
+hexdump -C iv1diff.bin | head -5
+00000000  eb f1 ae 66 b3 a9 47 4e  30 f7 e1 27 eb 44 98 6e  |...f..GN0..'.D.n|
+00000010  27 c7 1c d6 da 2a 60 b8  2c b2 c7 cc 64 9b 01 5a  |'....*`.,...d..Z|
+00000020  ab fd e5 57 ad 38 85 02  3e 77 15 fe 7b c2 82 71  |...W.8..>w..{..q|
+00000030  b3 c1 76 e8 43 2a e1 29  be c4 0c 2d 7c 09 96 92  |..v.C*.)...-|...|
+00000040  38 04 d7 ee 26 40 f4 f4  e9 02 5a 68 ef 38 b2 cc  |8...&@....Zh.8..|
+
+hexdump -C iv2diff.bin | head -5
+00000000  63 c9 5d 85 99 dc da fd  68 86 8b 17 e1 16 f5 d0  |c.].....h.......|
+00000010  30 b2 eb 74 97 30 d7 6a  ec a1 8d ce 32 09 d6 e1  |0..t.0.j....2...|
+00000020  ee 65 4f f6 20 c3 9d 6d  f3 51 ad b6 a8 ec 8b 30  |.eO. ..m.Q.....0|
+00000030  fb b6 5f d1 d5 07 8d cc  8f 3f d7 ab 2b 20 cb c4  |.._......?..+ ..|
+00000040  a5 5e 7e 37 41 7c 17 4c  2f 6e 24 ef aa 77 fe 74  |.^~7A|.L/n$..w.t|
+```
+Take the first 100 bytes of `plain.txt` to create `modplain.txt`
+
+```bash
+head -c +100 plain.txt > modplain.txt
+```
+
+Encrypt different plaintext file with same key `K` and initialization vector `iv` as before.
+
+```bash
+openssl enc -aes-128-cbc -in modplain.txt -out ivsame.bin \
+  -K 00112233445566778889aabbccddeeff \
+  -iv 01020304050607080102030405060708
+```
+
+View encrypted file using same `iv`.
+
+```bash
+hexdump -C ivsame.bin | head -5
+00000000  eb f1 ae 66 b3 a9 47 4e  30 f7 e1 27 eb 44 98 6e  |...f..GN0..'.D.n|
+00000010  27 c7 1c d6 da 2a 60 b8  2c b2 c7 cc 64 9b 01 5a  |'....*`.,...d..Z|
+00000020  ab fd e5 57 ad 38 85 02  3e 77 15 fe 7b c2 82 71  |...W.8..>w..{..q|
+00000030  b3 c1 76 e8 43 2a e1 29  be c4 0c 2d 7c 09 96 92  |..v.C*.)...-|...|
+00000040  38 04 d7 ee 26 40 f4 f4  e9 02 5a 68 ef 38 b2 cc  |8...&@....Zh.8..|
+```
+Even though we changed the plaintext message, the blocks are identical when you use the same `iv`, which could be used by attacker to look for patterns or known plaintext headers in a message or file.
+
+## Task 6.2. Common Mistake: Use the Same IV
 
