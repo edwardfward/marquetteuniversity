@@ -519,3 +519,15 @@ Even though we changed the plaintext message, the blocks are identical when you 
 
 ## Task 6.2. Common Mistake: Use the Same IV
 
+We are given the following OFB output. Figure out the content of P2.
+
+```bash
+Plaintext  (P1): This is a known message!
+Ciphertext (C1): a469b1c502c1cab966965e50425438e1bb1b5f9037a4c159
+Plaintext  (P2): (unknown to you)
+Ciphertext (C2): bf73bcd3509299d566c35b5d450337e1bb175f903fafc159
+```
+
+Given this is a known-plaintext attack against an OFB encryption, we can do the following.
+
+$$(P_1 \oplus C_1) \oplus C_2$$
