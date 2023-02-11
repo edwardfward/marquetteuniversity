@@ -561,37 +561,75 @@ If we replace `OFB` with `CFB`, we would be **unable** to reveal `P2` due to the
 
 We need to construct a message and ask Bob to encrypt it and give you the ciphertext. Determine whether the actual content of Bob's secret message is `Yes` or `No`.
 
-Start the Oracle.
-```bash
-sudo docker-compose up
-Creating network "net-10.9.0.0" with the default driver
-Creating oracle-10.9.0.80 ... done
-Attaching to oracle-10.9.0.80
-oracle-10.9.0.80 | Server listening on 3000 for known_iv
-oracle-10.9.0.80 | Connect to 3000, launching known_iv
-```
-
-Connect to the Oracle with a plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573`, which is 13-bytes short of the required 16-bytes with a 128-bit `CBC` cipher, so we need to pad the plaintext message before `XOR` with Bob's `IV`. We will do the same thing for "No".
-
-Reference [z/OS Cryptographic Services ICSF Application Programmer's Guide](https://www.ibm.com/docs/en/zos/2.1.0?topic=rules-pkcs-padding-method)
-
-Plaintext `Yes` with padding `5965730d0d0d0d0d0d0d0d0d0d0d0d0d`  
-Plaintext `No` with padding `4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e`
-
-Oracle Inputs.
-
-$$P_{attacker} \oplus IV_{bob}$$
+Plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573` and a plaintext of `No` (`echo -n "No" | xxd -p`) results in `4e6f`. We need to pad both of these before $$/oplus$$ with the 16-byte `IV`.
 
 ```bash
-```
+Yes = 5965730d0d0d0d0d0d0d0d0d0d0d0d0d
+No = 4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e
+````
 
+Connect to the Oracle.
 ```bash
 nc 10.9.0.80 3000
 Bob's secret message is either "Yes" or "No", without quotations.
-Bob's ciphertex: 3932fbc6b496dbc28bcde9408eef2187
-The IV used    : 9f629f939f9e24b16ef336c0bf14cea2
+Bob's ciphertex: c00fff5394540688fb9cf7899f33b8f8
+The IV used    : 0604f43ea1ba11d14fcba7e003297d6e
 
-Next IV        : b950bed89f9e24b16ef336c0bf14cea2
-Your plaintext :
+Next IV        : 31ea9183a1ba11d14fcba7e003297d6e
 ```
 
+Perform the following operation.
+
+$$ P_{in} = P_{attacker} /oplus V_{bob} /oplus V_{next} $$  
+
+Program used to perform $$/oplus$$ operations.
+```python
+#!/usr/bin/python3
+# Program from Computer and Internet Security 3rd Edition by Wenliang Du
+# Chapter 24.5.2 pg. 578
+
+from sys import argv
+
+script, first, second = argv
+aa = bytearray.fromhex(first)
+bb = bytearray.fromhex(second)
+xord = bytearray(x ^ y for x, y in zip(aa, bb))
+print(xord.hex())
+```
+
+Guess `Yes`.
+
+```bash
+./XOR.py 5965730d0d0d0d0d0d0d0d0d0d0d0d0d 0604f43ea1ba11d14fcba7e003297d6e
+5f618733acb71cdc42c6aaed0e247063
+./XOR.py 5f618733acb71cdc42c6aaed0e247063 31ea9183a1ba11d14fcba7e003297d6e
+6e8b16b00d0d0d0d0d0d0d0d0d0d0d0d
+
+nc 10.9.0.80 3000
+Bob's secret message is either "Yes" or "No", without quotations.
+Bob's ciphertex: c00fff5394540688fb9cf7899f33b8f8
+The IV used    : 0604f43ea1ba11d14fcba7e003297d6e
+
+Next IV        : 31ea9183a1ba11d14fcba7e003297d6e
+Your plaintext : 6e8b16b00d0d0d0d0d0d0d0d0d0d0d0d
+Your ciphertext: c00fff5394540688fb9cf7899f33b8f8807d69942ae5c9a6ee9a0dd56c9039db
+```
+
+Guess `No`.
+
+```Bash
+./XOR.py 4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e 0604f43ea1ba11d14fcba7e003297d6e
+486bfa30afb41fdf41c5a9ee0d277360
+./XOR.py 486bfa30afb41fdf41c5a9ee0d277360 add85faaa1ba11d14fcba7e003297d6e
+e5b3a59a0e0e0e0e0e0e0e0e0e0e0e0e
+```
+
+```bash
+Next IV        : add85faaa1ba11d14fcba7e003297d6e
+Your plaintext : e5b3a59a0e0e0e0e0e0e0e0e0e0e0e0e
+Your ciphertext: fd2a995f090ce3c1f8e3614bf04346417f8f26488fe2c4fae9d153a86d73cd6c
+
+Next IV        : 3473a813a2ba11d14fcba7e003297d6e
+Your plaintext : 
+```
+Still no luck. 
