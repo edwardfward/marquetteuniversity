@@ -563,9 +563,11 @@ We need to construct a message and ask Bob to encrypt it and give you the cipher
 
 Plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573` and a plaintext of `No` (`echo -n "No" | xxd -p`) results in `4e6f`. We need to pad both of these before $$/oplus$$ with the 16-byte `IV`.
 
+[PKCS Padding Method Reference](https://www.ibm.com/docs/en/zos/2.4.0?topic=rules-pkcs-padding-method)
+
 ```bash
-Yes = 5965730d0d0d0d0d0d0d0d0d0d0d0d0d
-No = 4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e
+Yes = 5965730d0d0d0d0d0d0d0d0d0d0d0d0d # add 13-bytes of padding (0x0d)
+No = 4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e  # add 14-byyes of padding (0x0e)
 ````
 
 Connect to the Oracle.
@@ -615,21 +617,4 @@ Your plaintext : 6e8b16b00d0d0d0d0d0d0d0d0d0d0d0d
 Your ciphertext: c00fff5394540688fb9cf7899f33b8f8807d69942ae5c9a6ee9a0dd56c9039db
 ```
 
-Guess `No`.
-
-```Bash
-./XOR.py 4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e 0604f43ea1ba11d14fcba7e003297d6e
-486bfa30afb41fdf41c5a9ee0d277360
-./XOR.py 486bfa30afb41fdf41c5a9ee0d277360 add85faaa1ba11d14fcba7e003297d6e
-e5b3a59a0e0e0e0e0e0e0e0e0e0e0e0e
-```
-
-```bash
-Next IV        : add85faaa1ba11d14fcba7e003297d6e
-Your plaintext : e5b3a59a0e0e0e0e0e0e0e0e0e0e0e0e
-Your ciphertext: fd2a995f090ce3c1f8e3614bf04346417f8f26488fe2c4fae9d153a86d73cd6c
-
-Next IV        : 3473a813a2ba11d14fcba7e003297d6e
-Your plaintext : 
-```
-Still no luck. 
+The first block of the outputted cipher text `c00fff5394540688fb9cf7899f33b8f8` equals Bob's ciphertext, `c00fff5394540688fb9cf7899f33b8f8` so he must have voted `Yes`.
