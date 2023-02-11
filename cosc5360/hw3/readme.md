@@ -566,7 +566,7 @@ If we replace `OFB` with `CFB`, we would be **unable** to reveal `P2` due to the
 
 We need to construct a message and ask Bob to encrypt it and give you the ciphertext. Determine whether the actual content of Bob's secret message is `Yes` or `No`.
 
-Plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573` and a plaintext of `No` (`echo -n "No" | xxd -p`) results in `4e6f`. We need to pad both of these before $$/oplus$$ with the 16-byte `IV`.
+Plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573` and a plaintext of `No` (`echo -n "No" | xxd -p`) results in `4e6f`. We need to pad both of these before $\oplus$ with the 16-byte `IV`.
 
 [PKCS Padding Method Reference](https://www.ibm.com/docs/en/zos/2.4.0?topic=rules-pkcs-padding-method)
 
@@ -587,7 +587,7 @@ Next IV        : 31ea9183a1ba11d14fcba7e003297d6e
 
 Perform the following operation.
 
-$$ P_{in} = P_{attacker} /oplus V_{bob} /oplus V_{next} $$  
+$$ P_{in} = P_{attacker} \oplus V_{bob} \oplus V_{next} $$  
 
 Program used to perform $$/oplus$$ operations.
 ```python
