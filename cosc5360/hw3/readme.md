@@ -1,3 +1,8 @@
+# COSC 5360 HW3 
+## Edward Ward III
+
+### Submitted Saturday, 11 February 202
+
 # Task 2: Encryption using different ciphers and modes
 
 First, I created a `plain.txt` file for the exercise and typed in a super secret message.
