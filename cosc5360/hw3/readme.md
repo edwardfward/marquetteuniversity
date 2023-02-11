@@ -555,4 +555,43 @@ print("P2: " + str(P2, 'utf-8'))
 python task6.2/decrypt.py
 P2: Order: Launch a missile!
 ```
+If we replace `OFB` with `CFB`, we would be **unable** to reveal `P2` due to the inability to determine the output of the block cipher encryption.
+
+## Task 6.3. Common Mistake: Use a Predictable IV
+
+We need to construct a message and ask Bob to encrypt it and give you the ciphertext. Determine whether the actual content of Bob's secret message is `Yes` or `No`.
+
+Start the Oracle.
+```bash
+sudo docker-compose up
+Creating network "net-10.9.0.0" with the default driver
+Creating oracle-10.9.0.80 ... done
+Attaching to oracle-10.9.0.80
+oracle-10.9.0.80 | Server listening on 3000 for known_iv
+oracle-10.9.0.80 | Connect to 3000, launching known_iv
+```
+
+Connect to the Oracle with a plaintext of `Yes` (`echo -n "Yes" | xxd -p`) results in `596573`, which is 13-bytes short of the required 16-bytes with a 128-bit `CBC` cipher, so we need to pad the plaintext message before `XOR` with Bob's `IV`. We will do the same thing for "No".
+
+Reference [z/OS Cryptographic Services ICSF Application Programmer's Guide](https://www.ibm.com/docs/en/zos/2.1.0?topic=rules-pkcs-padding-method)
+
+Plaintext `Yes` with padding `5965730d0d0d0d0d0d0d0d0d0d0d0d0d`  
+Plaintext `No` with padding `4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e`
+
+Oracle Inputs.
+
+$$P_attacker \oplus IV_bob$$
+
+```bash
+```
+
+```bash
+nc 10.9.0.80 3000
+Bob's secret message is either "Yes" or "No", without quotations.
+Bob's ciphertex: 3932fbc6b496dbc28bcde9408eef2187
+The IV used    : 9f629f939f9e24b16ef336c0bf14cea2
+
+Next IV        : b950bed89f9e24b16ef336c0bf14cea2
+Your plaintext :
+```
 
