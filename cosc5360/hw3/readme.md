@@ -580,7 +580,7 @@ Plaintext `No` with padding `4e6f0e0e0e0e0e0e0e0e0e0e0e0e0e0e`
 
 Oracle Inputs.
 
-$$P_attacker \oplus IV_bob$$
+$$P_(attacker) \oplus IV_(bob)$$
 
 ```bash
 ```
