@@ -589,7 +589,7 @@ Perform the following operation.
 
 $$ P_{in} = P_{attacker} \oplus V_{bob} \oplus V_{next} $$  
 
-Program used to perform $$/oplus$$ operations.
+Program used to perform $\oplus$ operations.
 ```python
 #!/usr/bin/python3
 # Program from Computer and Internet Security 3rd Edition by Wenliang Du
