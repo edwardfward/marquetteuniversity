@@ -6,7 +6,6 @@ fi
 
 while read -r user; do
   echo "-----------------------"
-  deluser "$user"
-  delgroup "$user"
+  deluser --remove-home --remove-all-files "$user" "students"
   echo "$user deleted"
 done < "$1"
