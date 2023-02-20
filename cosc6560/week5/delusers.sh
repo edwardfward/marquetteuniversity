@@ -7,5 +7,6 @@ fi
 while read -r user; do
   echo "-----------------------"
   deluser "$user"
+  delgroup "$user"
   echo "$user deleted"
 done < "$1"
