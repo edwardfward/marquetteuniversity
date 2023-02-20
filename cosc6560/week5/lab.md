@@ -259,6 +259,115 @@ sudo apt install pwgen
 Generate secure passwords for each user in `users.txt` using the following script and `pwgen`.
 
 ```bash
+#!/bin/bash
+if [ $# -eq 0 ]; then
+  echo "-- createusers [line delimited file of user to create]"
+  exit 0
+fi
 
+while read user; do
+  echo "-----------------------"
+  # generate password
+  Password=$(pwgen -c -n -y -B -s  14 1)
+  echo "User: $user             $Password" >> userpasswords.bin
+  useradd -G students -M $user
+  echo "User added...set passwd"
+done < $1
 ```
 
+```bash
+sudo ./createusers.sh users.txt
+```
+
+Set passwords for each user and verify proper group.
+
+```bash
+sudo passwd golam
+New password: 
+Retype new password: 
+passwd: password updated successfully
+
+id golam
+uid=1002(golam) gid=1002(golam) groups=1002(golam),10001(students)
+
+# remaining students removed for brevity
+```
+
+Logon in the user to demonstrate no home directory and ability to login. I had to change my `sshd` config to allow password logons, which I would normally NOT permit. I would secure all of my `sshd` daemons with public / private SSH keys vice passwords.  
+
+I submitted this lab late so I was unable to notify each member of the class via email with their username and password so I demonstrated a logon from my computer using their username.
+
+```bash
+ssh golam@134.48.13.234
+golam@134.48.13.234's password: 
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.0-60-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Mon Feb 20 05:35:00 AM UTC 2023
+
+  System load:                      0.02490234375
+  Usage of /:                       82.4% of 9.75GB
+  Memory usage:                     35%
+  Swap usage:                       0%
+  Processes:                        211
+  Users logged in:                  1
+  IPv4 address for br-16e4b51db574: 10.9.0.1
+  IPv4 address for docker0:         172.17.0.1
+  IPv4 address for ens160:          134.48.13.234
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+ * Introducing Expanded Security Maintenance for Applications.
+   Receive updates to over 25,000 software packages with your
+   Ubuntu Pro subscription. Free for personal use.
+
+     https://ubuntu.com/pro
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+Could not chdir to home directory /home/golam: No such file or directory
+```
+
+Check the authorization logs.
+
+```bash
+Feb 20 05:35:00 vm6560-4 sshd[1940]: Accepted password for golam from 184.100.5.251 port 57373 ssh2
+Feb 20 05:35:00 vm6560-4 sshd[1940]: pam_unix(sshd:session): session opened for user golam(uid=1002) by (uid=0)
+Feb 20 05:35:00 vm6560-4 systemd-logind[828]: New session 4 of user golam.
+Feb 20 05:35:00 vm6560-4 systemd: pam_unix(systemd-user:session): session opened for user golam(uid=1002) by (uid=0)
+Feb 20 05:35:43 vm6560-4 sshd[2005]: Disconnected from user golam 184.100.5.251 port 57373
+Feb 20 05:35:43 vm6560-4 sshd[1940]: pam_unix(sshd:session): session closed for user golam
+```
+
+### Delete Student Users
+
+```bash
+```
