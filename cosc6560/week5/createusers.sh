@@ -5,9 +5,11 @@ if [ $# -eq 0 ]; then
 fi
 
 while read user; do
+  echo "-----------------------"
   echo "$user"
   Password=$(pwgen -c -n -y -B -s  14 1)
   echo $Password
+  echo "-----------------------"
 
 done < $1
 
