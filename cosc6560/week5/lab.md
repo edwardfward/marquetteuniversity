@@ -369,5 +369,73 @@ Feb 20 05:35:43 vm6560-4 sshd[1940]: pam_unix(sshd:session): session closed for 
 
 ### Delete Student Users
 
+Used the following script to remove all traces of the student users from the system.
+
 ```bash
+#!/bin/bash
+if [ $# -eq 0 ]; then
+  echo "-- delusers [line delimited file of user to delete]"
+  exit 0
+fi
+
+while read -r user; do
+  echo "-----------------------"
+  deluser --remove-home --remove-all-files "$user" "students"
+  echo "$user deleted"
+done < "$1"
+```
+Execute the script.
+```bash
+sudo ./delusers.sh users.txt 
+-----------------------
+Removing user `golam' from group `students' ...
+Done.
+golam deleted
+-----------------------
+Removing user `paullin' from group `students' ...
+Done.
+paullin deleted
+-----------------------
+Removing user `gu' from group `students' ...
+Done.
+gu deleted
+-----------------------
+Removing user `abualrahi' from group `students' ...
+Done.
+abualrahi deleted
+-----------------------
+Removing user `bruno' from group `students' ...
+Done.
+bruno deleted
+-----------------------
+Removing user `velupillaimeikandan' from group `students' ...
+Done.
+velupillaimeikandan deleted
+-----------------------
+Removing user `mallett' from group `students' ...
+Done.
+mallett deleted
+-----------------------
+Removing user `voudrie' from group `students' ...
+Done.
+voudrie deleted
+-----------------------
+Removing user `kong' from group `students' ...
+Done.
+kong deleted
+-----------------------
+Removing user `sarumi' from group `students' ...
+Done.
+sarumi deleted
+```
+
+### Add Superuser
+
+Add professor as a extra superuser [account name removed].
+
+```bash
+sudo useradd -G sudo [user]
+pwgen -c -n -y -B -s  14 1
+[redacted]
+
 ```
