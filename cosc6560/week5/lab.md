@@ -265,21 +265,21 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-while read user; do
+while read -r user; do
   echo "-----------------------"
   # generate password
   Password=$(pwgen -c -n -y -B -s  14 1)
   echo "User: $user             $Password" >> userpasswords.bin
-  useradd -G students -M $user
+  useradd -G students -m -e 2023-05-15 "$user"
   echo "User added...set passwd"
-done < $1
+done < "$1"
 ```
 
 ```bash
 sudo ./createusers.sh users.txt
 ```
 
-Set passwords for each user and verify proper group.
+Set passwords for each user and verify proper group. Set passwords to expire to have users change on first logon.
 
 ```bash
 sudo passwd golam
@@ -291,6 +291,8 @@ id golam
 uid=1002(golam) gid=1002(golam) groups=1002(golam),10001(students)
 
 # remaining students removed for brevity
+
+sudo passwd -e golam
 ```
 
 Logon in the user to demonstrate no home directory and ability to login. I had to change my `sshd` config to allow password logons, which I would normally NOT permit. I would secure all of my `sshd` daemons with public / private SSH keys vice passwords.  
@@ -380,7 +382,7 @@ fi
 
 while read -r user; do
   echo "-----------------------"
-  deluser --remove-home --remove-all-files "$user" "students"
+  deluser --remove-home "$user"
   echo "$user deleted"
 done < "$1"
 ```
@@ -388,45 +390,66 @@ Execute the script.
 ```bash
 sudo ./delusers.sh users.txt 
 -----------------------
-Removing user `golam' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `golam' ...
+Warning: group `golam' has no more members.
 Done.
 golam deleted
 -----------------------
-Removing user `paullin' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `paullin' ...
+Warning: group `paullin' has no more members.
 Done.
 paullin deleted
 -----------------------
-Removing user `gu' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `gu' ...
+Warning: group `gu' has no more members.
 Done.
 gu deleted
 -----------------------
-Removing user `abualrahi' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `abualrahi' ...
+Warning: group `abualrahi' has no more members.
 Done.
 abualrahi deleted
 -----------------------
-Removing user `bruno' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `bruno' ...
+Warning: group `bruno' has no more members.
 Done.
 bruno deleted
 -----------------------
-Removing user `velupillaimeikandan' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `velupillaimeikandan' ...
+Warning: group `velupillaimeikandan' has no more members.
 Done.
 velupillaimeikandan deleted
 -----------------------
-Removing user `mallett' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `mallett' ...
+Warning: group `mallett' has no more members.
 Done.
 mallett deleted
 -----------------------
-Removing user `voudrie' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `voudrie' ...
+Warning: group `voudrie' has no more members.
 Done.
 voudrie deleted
 -----------------------
-Removing user `kong' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `kong' ...
+Warning: group `kong' has no more members.
 Done.
 kong deleted
 -----------------------
-Removing user `sarumi' from group `students' ...
+Looking for files to backup/remove ...
+Removing user `sarumi' ...
+Warning: group `sarumi' has no more members.
 Done.
 sarumi deleted
+
 ```
 
 ### Add Superuser
@@ -434,8 +457,43 @@ sarumi deleted
 Add professor as a extra superuser [account name removed].
 
 ```bash
-sudo useradd -G sudo [user]
+sudo useradd -G sudo -m -e 2023-05-15 [user]
 pwgen -c -n -y -B -s  14 1
 [redacted]
-
+# set to change on first logon
+sudo passwd -e [user]
+passwd: password expiry information changed.
 ```
+
+## Analysis
+
+Creating and deleting users was pretty straightforward with no surprises. I did learn a lot about the various options for creating and removing users. One aspect of user creation I found cumbersome was my inability to enter the encrypted password hash in the `useradd` command. I would like to explore this further and find out better ways to automate user creation and notification. 
+
+I prefer to restrict password logons via SSH and leverage public/private SSH keys instead. It is more secure against brute force attacks or keyloggers and easier when you are administering many computers.
+
+### How does SSH operate and use cryptography for security?
+
+Secure Shell (SSH) is a remote administration protocol that provides a secure replacement for older services such as`telnet`. SSH creates a secure connection between devices by leveraging symmetrical, asymmetrical, and hashing algorithms. Once a connection is initiated, a symmetrical key, normally AES-256, is negotiated through an algorithm known as Diffie-Hellman Key Exchange. The remainder of the session is encrypted using symmetric encryption. Here is how the algorithm works at a high level [Source - What Is SSH: Understanding Encryption, Ports and Connection](https://www.hostinger.com/tutorials/ssh-tutorial-how-does-ssh-work):
+
+* Client and server agree on a very large prime number, the seed value
+* Client and server agree on an encryption method (AES)
+* Both independently generate prime numbers as their own private key
+* A public key is computer from the private key and shared with the other
+* Use private and shared public key to create a final shared key
+* Session is encrypted.
+
+
+
+SSH can also use public / private keys for more secure user authentication. With SSH public/private key pairs, an administrator could create a `2048` or `4096` bit `RSA` SSH key to provide easier and faster access to servers. 
+
+### Can you, through your configuration of the system, force all users to only use SSH to access your system?
+
+In a perfect world yes, but a user can access your system in multiple ways if they have physical access to the machine. I am not sure whether "force all users to only use SSH" means using password or SSH keys. If the latter, you can turn off password logons in the `sshd_config` file for all users, which I prefer.
+
+### How does a SSH-only policy improve the security for the whole user community?
+
+SSH-only policies offers the whole user community confidentiality and integrity, two critical pieces of the CIA triad in information security. I cannot think of a single administrator out there using less secure forms of remote management tools. There are plenty of examples online with how to lockdown your `sshd`. There's no excuse not to have an SSH-only policy for remote server management.
+
+### Are there any risk/reward trade offs in enforcing a SSH-only policy ?
+
+I cannot think of any risk/reward tradeoffs for enforcing a SSH-only policy. There are so many tools out there to automate securing SSHD and issuing users SSH keys. The only possible drawback of enforcing a SSH-only policy, and it is a minor one, is maybe the increased administrative burden placed on the system administrator replacing and sending new credentials. Another possible drawback with a SSH-only policy is that if someone steals your credentials (private key) it would be easy to penetrate a system, but the attacker would be limited if they did not know your password.
