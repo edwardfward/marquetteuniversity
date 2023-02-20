@@ -9,7 +9,7 @@ while read -r user; do
   # generate password
   Password=$(pwgen -c -n -y -B -s  14 1)
   echo "User: $user             $Password" >> userpasswords.bin
-  useradd -G students -M "$user"
+  useradd -G students "$user"
   echo "User added...set passwd"
 done < "$1"
 
